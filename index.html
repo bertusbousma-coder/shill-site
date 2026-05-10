@@ -53,7 +53,7 @@
     .side-show-btn.visible{display:flex;}
     .side-top{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,0.055);}
     .side-logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:3px;}
-    .side-logo img{height:26px;width:auto;filter:drop-shadow(0 0 8px rgba(42,143,196,0.5));}
+    .side-logo img{height:36px;width:auto;filter:drop-shadow(0 0 8px rgba(42,143,196,0.5));}
     .side-logo-fb{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
     .side-tagline{font-size:9.5px;color:var(--muted2);letter-spacing:.05em;padding-left:1px;}
     .side-nav{padding:12px 10px;display:flex;flex-direction:column;gap:1px;flex:1;}
@@ -560,17 +560,44 @@ function idxToggleSide(){
 // ── COLOR ──
 function idxSetColor(val){
   document.getElementById('idxSwatchAc').style.background = val;
+  document.getElementById('idxAc').value = val;
   const r=parseInt(val.slice(1,3),16),g=parseInt(val.slice(3,5),16),b=parseInt(val.slice(5,7),16);
   document.documentElement.style.setProperty('--ac', val);
-  document.documentElement.style.setProperty('--glow', `rgba(${r},${g},${b},0.28)`);
+  document.documentElement.style.setProperty('--ac2', `rgb(${Math.round(r*.75)},${Math.round(g*.75)},${Math.round(b*.75)})`);
+  document.documentElement.style.setProperty('--glow', `rgba(${r},${g},${b},0.32)`);
+  // Inject style to override hardcoded color uses
+  let s = document.getElementById('idxDynColors');
+  if(!s){s=document.createElement('style');s.id='idxDynColors';document.head.appendChild(s);}
+  s.textContent = `
+    .h-b { background: linear-gradient(112deg, ${val} 0%, rgba(${r},${g},${b},0.7) 60%, rgba(${Math.min(r+40,255)},${Math.min(g+40,255)},${Math.min(b+40,255)},0.9) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .rule { background: ${val} !important; }
+    .chip-dot { background: ${val} !important; box-shadow: 0 0 6px rgba(${r},${g},${b},0.5) !important; }
+    .btn-ext { background: ${val} !important; box-shadow: 0 4px 18px rgba(${r},${g},${b},0.35) !important; }
+    .side-item:hover { color: rgba(255,255,255,0.85) !important; }
+    .modal-btn-primary { background: ${val} !important; box-shadow: 0 3px 16px rgba(${r},${g},${b},0.3) !important; }
+    .b1 { background: radial-gradient(circle,rgba(${Math.round(r*.4)},${Math.round(g*.4)},${Math.round(b*.4)},0.52) 0%,transparent 70%) !important; }
+    .b2 { background: radial-gradient(circle,rgba(${Math.round(r*.45)},${Math.round(g*.45)},${Math.round(b*.45)},0.44) 0%,transparent 70%) !important; }
+    .b3 { background: radial-gradient(circle,rgba(${Math.round(r*.3)},${Math.round(g*.3)},${Math.round(b*.3)},0.3) 0%,transparent 70%) !important; }
+    .b4, .b5 { background: radial-gradient(circle,rgba(${r},${g},${b},0.22) 0%,transparent 70%) !important; }
+  `;
+  try{localStorage.setItem('shill_idx_color',val);}catch(e){}
 }
 function idxReset(){
   const def = '#2a8fc4';
   document.getElementById('idxAc').value = def;
   document.getElementById('idxSwatchAc').style.background = def;
-  document.documentElement.style.removeProperty('--ac');
-  document.documentElement.style.removeProperty('--glow');
+  ['--ac','--ac2','--glow'].forEach(v=>document.documentElement.style.removeProperty(v));
+  const s = document.getElementById('idxDynColors');
+  if(s) s.textContent='';
+  try{localStorage.removeItem('shill_idx_color');}catch(e){}
 }
+// Load saved color
+(function(){
+  try{
+    const saved=localStorage.getItem('shill_idx_color');
+    if(saved) idxSetColor(saved);
+  }catch(e){}
+})();
 
 (function(){
   const c=document.getElementById('dots'),ctx=c.getContext('2d');
