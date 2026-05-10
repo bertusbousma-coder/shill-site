@@ -484,17 +484,11 @@
       display: flex; flex-direction: column; gap: 1px;
     }
     .tweet-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 14px 16px;
-      transition: background .15s, border-color .15s;
-      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 20px;
+      transition: background .15s;
     }
-    .tweet-card:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.1);
-    }
+    .tweet-card:hover { background: rgba(255,255,255,0.025); }
     .tweet-top {
       display: flex; align-items: flex-start; gap: 10px;
       margin-bottom: 10px;
@@ -531,34 +525,22 @@
       letter-spacing: -.01em;
     }
     .tweet-content {
-      font-size: 13px; color: rgba(255,255,255,0.72);
+      font-size: 14px; color: rgba(255,255,255,0.78);
       line-height: 1.65; letter-spacing: -.01em;
       margin-bottom: 10px; word-break: break-word;
+      padding-left: 48px;
     }
     .tweet-media {
-      border-radius: 9px; overflow: hidden;
+      border-radius: 10px; overflow: hidden;
       margin-bottom: 10px;
       border: 1px solid rgba(255,255,255,0.06);
-      max-width: 420px;
+      max-width: 480px;
+      margin-left: 48px;
     }
     .tweet-media img, .tweet-media video {
       width: 100%; display: block;
       max-height: 280px; object-fit: cover;
     }
-    .tweet-footer {
-      display: flex; gap: 18px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .tweet-footer-item {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 11px; color: rgba(255,255,255,0.25);
-      cursor: pointer; transition: color .15s;
-      letter-spacing: -.01em;
-    }
-    .tweet-footer-item:hover { color: var(--ac3); }
-    .tweet-footer-item svg { width: 13px; height: 13px; }
-
     /* feed wrapper */
     .feed-wrap {
       flex: 1; display: flex; flex-direction: column;
@@ -1009,27 +991,13 @@ function renderFeed(posts) {
         </div>
         <div class="tweet-time">${timeAgo(p.tweet_time || p.scraped_at)}</div>
       </div>
-      ${p.content ? `<div class="tweet-content">${p.content.replace(/\n/g,'<br>')}</div>` : ''}
+      ${p.content ? `<div class="tweet-content">${p.content.replace(/\n/g,'<br>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:#4db8e0;text-decoration:none;">$1</a>').replace(/(\$[A-Z]{2,10})/g,'<span style="color:#4db8e0;font-weight:600;">$1</span>').replace(/(@\w+)/g,'<span style="color:#4db8e0;">$1</span>')}</div>` : ''}
       ${p.media_url && p.media_type === 'image'
         ? `<div class="tweet-media"><img src="${p.media_url}" alt="media" loading="lazy"></div>`
         : ''}
       ${p.media_url && p.media_type === 'video'
         ? `<div class="tweet-media"><video src="${p.media_url}" controls muted playsinline></video></div>`
         : ''}
-      <div class="tweet-footer">
-        <span class="tweet-footer-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Reply
-        </span>
-        <span class="tweet-footer-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-          Repost
-        </span>
-        <span class="tweet-footer-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Like
-        </span>
-      </div>
     </div>
   `).join('');
 
