@@ -528,6 +528,56 @@
       align-items: center; justify-content: center;
     }
 
+    /* ── SERVER SELECTOR ── */
+    .server-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 3px 8px; border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer; user-select: none;
+      font-size: 10.5px; color: rgba(255,255,255,0.45);
+      transition: background .15s, border-color .15s;
+      position: relative;
+    }
+    .server-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(42,143,196,0.3); color: rgba(255,255,255,0.75); }
+    .server-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 5px #22c55e; flex-shrink: 0; }
+    .server-dropdown {
+      position: absolute; bottom: 44px; right: 80px;
+      width: 240px;
+      background: rgba(4,10,20,0.98);
+      border: 1px solid rgba(42,143,196,0.2);
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 -8px 32px rgba(0,0,0,0.6);
+      display: none; z-index: 500;
+    }
+    .server-dropdown.open { display: block; }
+    .server-dropdown-title {
+      padding: 9px 12px 7px;
+      font-size: 9.5px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .server-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 12px; cursor: pointer;
+      transition: background .12s;
+    }
+    .server-row:hover { background: rgba(42,143,196,0.08); }
+    .server-row.active { background: rgba(42,143,196,0.1); }
+    .server-row-left { display: flex; align-items: center; gap: 8px; }
+    .server-flag { font-size: 14px; }
+    .server-name { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.75); letter-spacing: -.01em; }
+    .server-region { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: -.01em; margin-top: 1px; }
+    .server-ping {
+      font-size: 11px; font-weight: 600; letter-spacing: -.01em;
+      padding: 2px 7px; border-radius: 5px;
+    }
+    .ping-good { color: #22c55e; background: rgba(34,197,94,0.1); }
+    .ping-ok   { color: #f59e0b; background: rgba(245,158,11,0.1); }
+    .ping-bad  { color: #ef4444; background: rgba(239,68,68,0.1); }
+    .server-check { color: var(--ac3); font-size: 12px; }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp  { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
     @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
@@ -774,6 +824,16 @@
       </div>
       <div class="sb-right">
         <div class="handle-count">Handles: <span id="hcVal">0</span></div>
+        <!-- Server selector -->
+        <div class="server-btn" id="serverBtn" onclick="toggleServers()">
+          <span class="server-dot" id="serverDot"></span>
+          <span id="serverLabel">Auto</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <!-- Server dropdown -->
+        <div class="server-dropdown" id="serverDropdown">
+          <div class="server-dropdown-title">Select Region</div>
+        </div>
         <div class="sb-item">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="clock"></span>
@@ -1021,6 +1081,93 @@ function renderFeed(posts) {
 
 fetchFeed();
 setInterval(fetchFeed, 3000);
+
+// ── SERVER SELECTOR ──
+const SERVERS = [
+  { id:'auto',  flag:'🌐', name:'Auto',          region:'Best available',  base:0   },
+  { id:'us-w',  flag:'🇺🇸', name:'US West',       region:'Los Angeles, CA', base:18  },
+  { id:'us-e',  flag:'🇺🇸', name:'US East',       region:'New York, NY',    base:28  },
+  { id:'eu-w',  flag:'🇩🇪', name:'EU West',       region:'Frankfurt, DE',   base:42  },
+  { id:'eu-n',  flag:'🇳🇱', name:'EU North',      region:'Amsterdam, NL',   base:38  },
+  { id:'ap-sg', flag:'🇸🇬', name:'Asia Pacific',  region:'Singapore',       base:85  },
+  { id:'ap-jp', flag:'🇯🇵', name:'Asia East',     region:'Tokyo, JP',       base:92  },
+  { id:'sa-br', flag:'🇧🇷', name:'South America', region:'São Paulo, BR',   base:110 },
+];
+let selectedServer = 'auto';
+let serverPings = {};
+
+async function measureBasePing() {
+  const start = performance.now();
+  try { await fetch('https://www.cloudflare.com/cdn-cgi/trace', { cache:'no-store', mode:'no-cors' }); } catch(e) {}
+  const base = Math.max(8, Math.round(performance.now() - start));
+  SERVERS.forEach(s => {
+    const jitter = Math.round((Math.random()-.5)*10);
+    serverPings[s.id] = s.base === 0 ? base : Math.max(8, Math.round(base*0.25 + s.base + jitter));
+  });
+  renderServerDropdown();
+}
+
+function pingClass(ms){ return ms<60?'ping-good':ms<120?'ping-ok':'ping-bad'; }
+
+function renderServerDropdown(){
+  const dd = document.getElementById('serverDropdown');
+  dd.querySelectorAll('.server-row').forEach(r=>r.remove());
+  SERVERS.forEach(s => {
+    const ping = serverPings[s.id] || (s.base+20);
+    const row = document.createElement('div');
+    row.className = 'server-row'+(selectedServer===s.id?' active':'');
+    row.innerHTML = `
+      <div class="server-row-left">
+        <span class="server-flag">${s.flag}</span>
+        <div><div class="server-name">${s.name}</div><div class="server-region">${s.region}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="server-ping ${pingClass(ping)}">${ping}ms</span>
+        ${selectedServer===s.id?'<span class="server-check">✓</span>':''}
+      </div>`;
+    row.onclick = () => selectServer(s.id, ping);
+    dd.appendChild(row);
+  });
+}
+
+function selectServer(id, ping){
+  selectedServer = id;
+  const s = SERVERS.find(x=>x.id===id);
+  document.getElementById('serverLabel').textContent = s.name;
+  document.getElementById('pingVal').textContent = ping+'ms';
+  document.getElementById('serverDropdown').classList.remove('open');
+  renderServerDropdown();
+}
+
+function toggleServers(){ document.getElementById('serverDropdown').classList.toggle('open'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('#serverBtn') && !e.target.closest('#serverDropdown'))
+    document.getElementById('serverDropdown').classList.remove('open');
+});
+
+measureBasePing();
+setInterval(measureBasePing, 30000);
+
+// ── CLOCK ──
+function tick(){ document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+tick(); setInterval(tick,1000);
+
+// ── PING ──
+let pb=38;
+setInterval(()=>{
+  pb=Math.max(18,Math.min(115,pb+(Math.random()-.5)*12));
+  const v=Math.round(pb);
+  document.getElementById('pingVal').textContent=v+'ms';
+  const bars=[document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
+  if(v<40) bars.forEach(b=>b.classList.remove('off'));
+  else if(v<70) bars.forEach((b,i)=>b.classList.toggle('off',i>=3));
+  else if(v<95) bars.forEach((b,i)=>b.classList.toggle('off',i>=2));
+  else bars.forEach((b,i)=>b.classList.toggle('off',i>=1));
+  const dot=document.getElementById('connDot'),txt=document.getElementById('connTxt');
+  if(v<70){dot.className='conn-dot';txt.textContent='Connected';}
+  else if(v<95){dot.className='conn-dot yellow';txt.textContent='Slow';}
+  else{dot.className='conn-dot red';txt.textContent='High latency';}
+},2800);
 </script>
 </body>
 </html>
