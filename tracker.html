@@ -130,12 +130,13 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .tc-ticker{color:var(--ac3);font-weight:600;}
 .tc-preview{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.09);text-decoration:none;display:block;transition:border-color .15s;}
 .tc-preview:hover{border-color:rgba(42,143,196,0.5);}
-.tc-preview-img{width:100%;max-height:200px;object-fit:cover;display:block;border-bottom:1px solid rgba(255,255,255,0.07);}
+.tc-preview-img{width:100%;height:auto;max-height:300px;object-fit:cover;display:block;border-bottom:1px solid rgba(255,255,255,0.07);}
 .tc-preview-info{padding:9px 12px;}
 .tc-preview-domain{font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;letter-spacing:-.01em;}
 .tc-preview-title{font-size:13px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;letter-spacing:-.01em;}
 .tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);}
-.tc-media img,.tc-media video{width:100%;display:block;max-height:320px;object-fit:cover;}
+.tc-media img{width:100%;height:auto;display:block;}
+.tc-media video{width:100%;height:auto;display:block;max-height:500px;}
 .tc-footer{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid rgba(42,143,196,0.1);margin-top:8px;}
 .tc-footer-left{display:flex;align-items:center;gap:12px;}
 .tc-footer-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.28);cursor:pointer;background:none;border:none;transition:color .15s;letter-spacing:-.01em;font-family:'Inter',sans-serif;}
@@ -145,6 +146,25 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .tc-view{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,0.28);text-decoration:none;transition:color .15s;}
 .tc-view:hover{color:rgba(255,255,255,0.7);}
 .tc-view svg{width:10px;height:10px;}
+
+/* COMMUNITIES */
+.comm-view{flex:1;display:none;flex-direction:column;overflow:hidden;}
+.comm-header{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.055);display:flex;align-items:center;justify-content:space-between;}
+.comm-title{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:-.01em;}
+.comm-add-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:var(--ac);color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .15s;letter-spacing:-.01em;}
+.comm-add-btn:hover{background:var(--ac3);}
+.comm-add-btn svg{width:11px;height:11px;}
+.comm-list{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.comm-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px;text-align:center;}
+.comm-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.02);transition:border-color .15s;}
+.comm-item:hover{border-color:rgba(42,143,196,0.3);}
+.comm-item-icon{width:40px;height:40px;border-radius:10px;background:rgba(42,143,196,0.12);border:1px solid rgba(42,143,196,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.comm-item-icon svg{width:18px;height:18px;color:var(--ac3);}
+.comm-item-info{flex:1;min-width:0;}
+.comm-item-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.comm-item-meta{font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:-.01em;}
+.comm-item-rm{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.28);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;flex-shrink:0;}
+.comm-item-rm:hover{background:rgba(239,68,68,0.15);color:rgba(239,100,100,.8);border-color:rgba(239,68,68,0.25);}
 
 /* STATUS BAR */
 .statusbar{height:var(--status-h);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(0,0,0,0.62);border-top:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(12px);gap:12px;}
@@ -355,6 +375,28 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
   </div>
 </div>
 
+<!-- COMM IMPORT OVERLAY -->
+<div class="overlay" id="commImportOverlay">
+  <div class="panel" style="max-width:440px;">
+    <div class="panel-head">
+      <div class="panel-head-left">
+        <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><div class="panel-htitle">Add Community</div><div class="panel-hsub">Paste an X Community URL</div></div>
+      </div>
+      <button class="panel-xbtn" onclick="closeCommImport()">✕</button>
+    </div>
+    <div class="import-body">
+      <p class="import-desc">Paste the URL of an <strong>X Community</strong> you want to track. Example:<br><code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:11px;">https://x.com/i/communities/1234567890</code></p>
+      <input id="commUrlInput" type="text" placeholder="https://x.com/i/communities/..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:9px;padding:10px 13px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.8);outline:none;transition:border-color .18s;" oninput="validateCommUrl()" onfocus="this.style.borderColor='rgba(42,143,196,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+      <div id="commUrlErr" style="display:none;font-size:11.5px;color:rgba(239,100,100,.85);margin-top:7px;letter-spacing:-.01em;">Please enter a valid X Community URL</div>
+      <div class="import-actions">
+        <button class="btn-apply" id="commApplyBtn" onclick="addCommunity()" disabled>Add Community</button>
+        <button class="btn-cancel" onclick="closeCommImport()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN SHELL -->
 <div class="shell">
   <!-- SIDE -->
@@ -397,7 +439,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
         <div class="topbar-sep"></div>
         <div class="feed-tabs">
           <span class="feed-tab active" onclick="setTab(this,'main')">Main Feed</span>
-          <span class="feed-tab" onclick="openComm()">X Communities</span>
+          <span class="feed-tab" onclick="setTab(this,'communities')">X Communities</span>
         </div>
       </div>
       <div class="topbar-right">
@@ -459,6 +501,28 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
         </div>
       </div>
 
+      <!-- COMMUNITIES VIEW -->
+      <div id="commView" class="comm-view">
+        <div class="comm-header">
+          <span class="comm-title">0 communities imported</span>
+          <button class="comm-add-btn" onclick="openCommImport()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Community
+          </button>
+        </div>
+        <div id="commList" class="comm-list">
+          <div class="comm-empty" id="commEmpty">
+            <div class="empty-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="empty-title">No communities imported</div>
+            <p class="empty-sub">Add an X Community URL to start tracking posts from that community in real-time.</p>
+            <button class="e-btn e-btn-p" onclick="openCommImport()" style="margin-top:4px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Community
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /content-area -->
 
     <!-- STATUS BAR -->
@@ -503,18 +567,84 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 function setTab(el, tab) {
   document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  const mainView = document.getElementById('mainView');
+  const commView = document.getElementById('commView');
+  if (tab === 'communities') {
+    mainView.style.display = 'none';
+    commView.style.display = 'flex';
+  } else {
+    mainView.style.display = 'flex';
+    commView.style.display = 'none';
+  }
 }
 
 // ── OVERLAYS ──
 function openOverlay(id) { document.getElementById(id).classList.add('open'); }
 function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
-['importOverlay','handlesOverlay','cfgOverlay','commOverlay'].forEach(id => {
-  document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) closeOverlay(id); });
+['importOverlay','handlesOverlay','cfgOverlay','commImportOverlay'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', function(e) { if (e.target === this) closeOverlay(id); });
 });
 function openCfg(e) { e.preventDefault(); openOverlay('cfgOverlay'); }
 function closeCfg() { closeOverlay('cfgOverlay'); }
-function openComm() { openOverlay('commOverlay'); }
-function closeComm() { closeOverlay('commOverlay'); }
+
+// ── COMMUNITIES ──
+let communities = [];
+
+function openCommImport() {
+  document.getElementById('commUrlInput').value = '';
+  document.getElementById('commUrlErr').style.display = 'none';
+  document.getElementById('commApplyBtn').disabled = true;
+  openOverlay('commImportOverlay');
+}
+function closeCommImport() { closeOverlay('commImportOverlay'); }
+
+function validateCommUrl() {
+  const val = document.getElementById('commUrlInput').value.trim();
+  const valid = val.includes('x.com/i/communities/') || val.includes('twitter.com/i/communities/');
+  document.getElementById('commUrlErr').style.display = val && !valid ? 'block' : 'none';
+  document.getElementById('commApplyBtn').disabled = !valid;
+}
+
+function addCommunity() {
+  const url = document.getElementById('commUrlInput').value.trim();
+  const match = url.match(/communities\/(\d+)/);
+  const id = match ? match[1] : Date.now().toString();
+  const name = 'Community ' + id.slice(-6);
+  communities.push({ id, url, name });
+  renderCommunities();
+  closeCommImport();
+}
+
+function removeCommunity(i) {
+  communities.splice(i, 1);
+  renderCommunities();
+}
+
+function renderCommunities() {
+  const list = document.getElementById('commList');
+  const empty = document.getElementById('commEmpty');
+  document.querySelector('.comm-title').textContent = communities.length + ' communities imported';
+  if (!communities.length) {
+    empty.style.display = 'flex';
+    list.querySelectorAll('.comm-item').forEach(el => el.remove());
+    return;
+  }
+  empty.style.display = 'none';
+  list.querySelectorAll('.comm-item').forEach(el => el.remove());
+  communities.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'comm-item';
+    div.innerHTML = `
+      <div class="comm-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="comm-item-info">
+        <div class="comm-item-name">${c.name}</div>
+        <div class="comm-item-meta">${c.url}</div>
+      </div>
+      <button class="comm-item-rm" onclick="removeCommunity(${i})">✕</button>`;
+    list.appendChild(div);
+  });
+}
 function openImport() {
   document.getElementById('filterInput').value = '';
   clearErr();
