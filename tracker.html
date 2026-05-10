@@ -478,10 +478,12 @@
     .btn-cfg-s:hover { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.7); }
 
     /* ── TWEET CARDS ── */
-    .feed-scroll { flex:1; overflow-y:auto; padding:8px 0; display:flex; flex-direction:column; gap:8px; }
-    .tweet-card { border:1.5px solid rgba(255,255,255,0.08); border-radius:10px; margin:0 10px; overflow:hidden; background:rgba(15,15,23,0.98); transition:border-color .15s; }
+    .feed-scroll { flex:1; overflow-y:auto; padding:8px 0; display:flex; flex-direction:column; gap:10px; }
+    .tweet-card { border:1.5px solid rgba(42,143,196,0.14); border-radius:10px; margin:0 10px; overflow:hidden; background:rgba(5,12,22,0.95); transition:border-color .15s; }
     .tweet-card:hover { border-color:rgba(42,143,196,0.4); }
-    .tc-head { display:flex; align-items:center; height:58px; min-width:0; overflow:hidden; padding-left:10px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .tweet-card.new-card { animation: slideIn .35s ease; }
+    @keyframes slideIn { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
+    .tc-head { display:flex; align-items:center; height:58px; min-width:0; overflow:hidden; padding-left:10px; border-bottom:1px solid rgba(42,143,196,0.12); }
     .tc-head-inner { display:flex; align-items:center; gap:10px; flex:1; min-width:0; overflow:hidden; padding:8px 0; }
     .tc-avatar { width:40px; height:40px; border-radius:50%; flex-shrink:0; overflow:hidden; border:1px solid rgba(255,255,255,0.1); background:rgba(42,143,196,0.15); }
     .tc-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -507,7 +509,7 @@
     .tc-preview-title { font-size:13px; font-weight:500; color:rgba(255,255,255,0.8); line-height:1.4; letter-spacing:-.01em; }
     .tc-media { margin:10px 14px; border-radius:9px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); }
     .tc-media img, .tc-media video { width:100%; display:block; max-height:320px; object-fit:cover; }
-    .tc-footer { display:flex; align-items:center; justify-content:space-between; padding:7px 12px; border-top:1px solid rgba(255,255,255,0.06); margin-top:8px; }
+    .tc-footer { display:flex; align-items:center; justify-content:space-between; padding:7px 12px; border-top:1px solid rgba(42,143,196,0.1); margin-top:8px; }
     .tc-footer-left { display:flex; align-items:center; gap:12px; }
     .tc-footer-btn { display:flex; align-items:center; gap:5px; font-size:11px; color:rgba(255,255,255,0.28); cursor:pointer; background:none; border:none; transition:color .15s; letter-spacing:-.01em; font-family:'Inter',sans-serif; }
     .tc-footer-btn:hover { color:rgba(255,255,255,0.65); }
@@ -898,156 +900,127 @@ function renderHandles(){
 }
 function rmHandle(i){ handles.splice(i,1); updateCount(); renderHandles(); }
 
-// ── SUPABASE FEED ──
+// ── REAL-TIME FEED ──
 const SUPA_URL = 'https://nkqjpcnslmadmvnuwvdh.supabase.co';
 const SUPA_KEY = 'sb_publishable_MsAMc4JdsxbCadOHZZQJYg_v6n8qoeX';
+let knownIds = new Set();
 let allPosts = [];
-
-async function fetchFeed() {
-  try {
-    const res = await fetch(
-      `${SUPA_URL}/rest/v1/tweets?order=scraped_at.desc&limit=100`,
-      { headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': `Bearer ${SUPA_KEY}`,
-        'Content-Type': 'application/json'
-      }}
-    );
-    if (!res.ok) throw new Error(res.statusText);
-    const data = await res.json();
-    if (data.length > 0) {
-      allPosts = data;
-      renderFeed(data);
-    }
-  } catch(e) {
-    console.error('Feed fetch error:', e);
-  }
-}
+let feedInitialized = false;
 
 function timeAgo(str) {
   if (!str) return '';
   const d = new Date(str);
   if (isNaN(d)) return str;
   const s = Math.floor((Date.now() - d) / 1000);
-  if (s < 60)   return `${s}s ago`;
-  if (s < 3600) return `${Math.floor(s/60)}m ago`;
-  if (s < 86400)return `${Math.floor(s/3600)}h ago`;
-  return `${Math.floor(s/86400)}d ago`;
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+
+const fmt = t => (t||'')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+  .replace(/(\$[A-Z]{2,10})/g,'<span class="tc-ticker">$1</span>')
+  .replace(/\n/g,'<br>');
+
+const V_SVG = `<svg class="tc-verified" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>`;
+const U_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>`;
+const EXT_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>`;
+const TR_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg>`;
+
+function buildCard(p) {
+  const av = (p.display_name||p.handle||'?')[0].toUpperCase();
+  return `<div class="tweet-card">
+    <div class="tc-head"><div class="tc-head-inner">
+      <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" style="flex-shrink:0;">
+        <div class="tc-avatar">${p.avatar_url
+          ? `<img src="${p.avatar_url}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=tc-avatar-fb>${av}</div>'">`
+          : `<div class="tc-avatar-fb">${av}</div>`}</div>
+      </a>
+      <div class="tc-info">
+        <div class="tc-name-row"><span>${p.display_name && p.display_name!=='unknown'?p.display_name:p.handle}</span>${p.verified?V_SVG:''}</div>
+        <div class="tc-sub">
+          <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" class="tc-handle">@${p.handle}</a>
+          ${p.followers?`<span class="tc-followers">${U_SVG}${p.followers}</span>`:''}
+        </div>
+      </div>
+    </div></div>
+    ${p.content?`<div class="tc-body">${fmt(p.content)}</div>`:''}
+    ${p.link_preview_url&&p.link_preview_title?`<a href="${p.link_preview_url}" target="_blank" rel="noopener" class="tc-preview">${p.media_url&&p.media_type==='preview'?`<img src="${p.media_url}" class="tc-preview-img" alt="" loading="lazy">`:''}<div class="tc-preview-info">${p.link_preview_domain?`<div class="tc-preview-domain">${p.link_preview_domain}</div>`:''}<div class="tc-preview-title">${p.link_preview_title}</div></div></a>`:''}
+    ${p.media_url&&p.media_type==='image'?`<div class="tc-media"><img src="${p.media_url}" alt="" loading="lazy"></div>`:''}
+    ${p.media_url&&p.media_type==='video'?`<div class="tc-media"><video src="${p.media_url}" controls muted playsinline></video></div>`:''}
+    <div class="tc-footer">
+      <div class="tc-footer-left"><button class="tc-footer-btn">${TR_SVG} Translate</button><span style="font-size:11px;color:rgba(255,255,255,0.2);">EN</span></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="tc-time">${p.time_ago||timeAgo(p.tweet_time||p.scraped_at)}</span>
+        ${p.tweet_url?`<a href="${p.tweet_url}" target="_blank" rel="noopener" class="tc-view">View ${EXT_SVG}</a>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+async function fetchFeed() {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/tweets?order=scraped_at.desc&limit=150`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data||!data.length) return;
+
+    if (!feedInitialized) {
+      allPosts = data;
+      data.forEach(p => knownIds.add(p.id));
+      renderFeed(data);
+      feedInitialized = true;
+    } else {
+      const newPosts = data.filter(p => !knownIds.has(p.id));
+      if (newPosts.length > 0) {
+        newPosts.forEach(p => { knownIds.add(p.id); allPosts.unshift(p); });
+        prependPosts(newPosts);
+        document.getElementById('postCount').textContent = allPosts.length;
+      }
+    }
+  } catch(e) { console.error('Feed error:', e); }
+}
+
+function prependPosts(posts) {
+  const feed = document.getElementById('feedInner');
+  const scroll = document.getElementById('feedScroll');
+  const empty = document.getElementById('emptyState');
+  if (empty) empty.style.display = 'none';
+  if (scroll) scroll.style.display = 'block';
+  [...posts].reverse().forEach(p => {
+    const el = document.createElement('div');
+    el.innerHTML = buildCard(p);
+    const card = el.firstElementChild;
+    card.style.cssText = 'opacity:0;transform:translateY(-10px);transition:opacity .35s ease,transform .35s ease;';
+    feed.prepend(card);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      card.style.opacity = '1'; card.style.transform = 'translateY(0)';
+    }));
+  });
 }
 
 function renderFeed(posts) {
   const scroll = document.getElementById('feedScroll');
-  const feed   = document.getElementById('feedInner');
-  const empty  = document.getElementById('emptyState');
-  if (!posts || posts.length === 0) {
-    if (empty)  empty.style.display  = 'flex';
+  const feed = document.getElementById('feedInner');
+  const empty = document.getElementById('emptyState');
+  if (!posts||!posts.length) {
+    if (empty) empty.style.display = 'flex';
     if (scroll) scroll.style.display = 'none';
-    if (feed)   feed.innerHTML = '';
+    if (feed) feed.innerHTML = '';
     return;
   }
-  if (empty)  empty.style.display  = 'none';
+  if (empty) empty.style.display = 'none';
   if (scroll) scroll.style.display = 'block';
-
-  const fmt = t => (t||'')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
-    .replace(/(\$[A-Z]{2,10})/g,'<span class="tc-ticker">$1</span>')
-    .replace(/\n/g,'<br>');
-
-  const VERIFIED_SVG = `<svg class="tc-verified" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>`;
-  const USERS_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>`;
-  const EXT_LINK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>`;
-  const TRANSLATE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg>`;
-
-  feed.innerHTML = posts.map(p => `
-    <div class="tweet-card">
-
-      <!-- HEADER -->
-      <div class="tc-head">
-        <div class="tc-head-inner">
-          <!-- Avatar -->
-          <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" style="flex-shrink:0;">
-            <div class="tc-avatar">
-              ${p.avatar_url
-                ? `<img src="${p.avatar_url}" alt="${p.handle} avatar" loading="lazy" onerror="this.parentElement.innerHTML='<div class=tc-avatar-fb>${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>'">`
-                : `<div class="tc-avatar-fb">${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>`}
-            </div>
-          </a>
-          <!-- Info -->
-          <div class="tc-info">
-            <div class="tc-name-row">
-              <span>${p.display_name && p.display_name !== 'unknown' ? p.display_name : p.handle}</span>
-              ${p.verified ? VERIFIED_SVG : ''}
-            </div>
-            <div class="tc-sub">
-              <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" class="tc-handle">@${p.handle}</a>
-              ${p.followers ? `<span class="tc-followers">${USERS_SVG}${p.followers}</span>` : ''}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TWEET TEXT -->
-      ${p.content ? `<div class="tc-body">${fmt(p.content)}</div>` : ''}
-
-      <!-- LINK PREVIEW CARD -->
-      ${p.link_preview_url && p.link_preview_image ? `
-        <a href="${p.link_preview_url}" target="_blank" rel="noopener" class="tc-preview">
-          <img src="${p.link_preview_image}" class="tc-preview-img" alt="" loading="lazy">
-          <div class="tc-preview-info">
-            ${p.link_preview_domain ? `<div class="tc-preview-domain">${p.link_preview_domain}</div>` : ''}
-            ${p.link_preview_title ? `<div class="tc-preview-title">${p.link_preview_title}</div>` : ''}
-          </div>
-        </a>` : ''}
-
-      <!-- MEDIA (tweet images/video) -->
-      ${p.media_url && p.media_type === 'image' ? `
-        <div class="tc-media"><img src="${p.media_url}" alt="media" loading="lazy"></div>` : ''}
-      ${p.media_url && p.media_type === 'video' ? `
-        <div class="tc-media"><video src="${p.media_url}" controls muted playsinline></video></div>` : ''}
-
-      <!-- FOOTER -->
-      <div class="tc-footer">
-        <div class="tc-footer-left">
-          <button class="tc-footer-btn">${TRANSLATE_SVG} Translate</button>
-          <span style="font-size:11px;color:rgba(255,255,255,0.2);">EN</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span class="tc-time">${p.time_ago || timeAgo(p.tweet_time || p.scraped_at)}</span>
-          ${p.tweet_url ? `<a href="${p.tweet_url}" target="_blank" rel="noopener" class="tc-view">View ${EXT_LINK_SVG}</a>` : ''}
-        </div>
-      </div>
-
-    </div>
-  `).join('');
-
+  feed.innerHTML = posts.map(buildCard).join('');
   document.getElementById('postCount').textContent = posts.length;
 }
 
-// Fetch on load + every 30s
 fetchFeed();
-setInterval(fetchFeed, 30000);
-
-// ── CLOCK ──
-function tick(){ document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
-tick(); setInterval(tick,1000);
-
-// ── PING ──
-let pb=38;
-setInterval(()=>{
-  pb=Math.max(18,Math.min(115,pb+(Math.random()-.5)*12));
-  const v=Math.round(pb);
-  document.getElementById('pingVal').textContent=v+'ms';
-  const bars=[document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
-  if(v<40)      bars.forEach(b=>b.classList.remove('off'));
-  else if(v<70) bars.forEach((b,i)=>b.classList.toggle('off',i>=3));
-  else if(v<95) bars.forEach((b,i)=>b.classList.toggle('off',i>=2));
-  else          bars.forEach((b,i)=>b.classList.toggle('off',i>=1));
-  const dot=document.getElementById('connDot'),txt=document.getElementById('connTxt');
-  if(v<70){dot.className='conn-dot';txt.textContent='Connected';}
-  else if(v<95){dot.className='conn-dot yellow';txt.textContent='Slow';}
-  else{dot.className='conn-dot red';txt.textContent='High latency';}
-},2800);
+setInterval(fetchFeed, 3000);
 </script>
 </body>
 </html>
