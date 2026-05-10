@@ -134,9 +134,9 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .tc-preview-info{padding:9px 12px;}
 .tc-preview-domain{font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;letter-spacing:-.01em;}
 .tc-preview-title{font-size:13px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;letter-spacing:-.01em;}
-.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);}
+.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);display:inline-block;width:calc(100% - 28px);}
 .tc-media img{width:100%;height:auto;display:block;}
-.tc-media video{width:100%;height:auto;display:block;max-height:500px;}
+.tc-media video{width:100%;height:auto;display:block;}
 .tc-footer{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid rgba(42,143,196,0.1);margin-top:8px;}
 .tc-footer-left{display:flex;align-items:center;gap:12px;}
 .tc-footer-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.28);cursor:pointer;background:none;border:none;transition:color .15s;letter-spacing:-.01em;font-family:'Inter',sans-serif;}
@@ -149,9 +149,9 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 
 /* COMMUNITIES */
 .comm-view{flex:1;display:none;flex-direction:column;overflow:hidden;}
-.comm-header{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.055);display:flex;align-items:center;justify-content:space-between;}
-.comm-title{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:-.01em;}
-.comm-add-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:var(--ac);color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .15s;letter-spacing:-.01em;}
+.comm-header{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.055);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0;}
+.comm-title{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:-.01em;white-space:nowrap;}
+.comm-add-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:var(--ac);color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .15s;letter-spacing:-.01em;white-space:nowrap;flex-shrink:0;}
 .comm-add-btn:hover{background:var(--ac3);}
 .comm-add-btn svg{width:11px;height:11px;}
 .comm-list{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
@@ -162,7 +162,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .comm-item-icon svg{width:18px;height:18px;color:var(--ac3);}
 .comm-item-info{flex:1;min-width:0;}
 .comm-item-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.comm-item-meta{font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:-.01em;}
+.comm-item-meta{font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .comm-item-rm{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.28);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;flex-shrink:0;}
 .comm-item-rm:hover{background:rgba(239,68,68,0.15);color:rgba(239,100,100,.8);border-color:rgba(239,68,68,0.25);}
 
@@ -528,22 +528,16 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
     <!-- STATUS BAR -->
     <div class="statusbar">
       <div class="sb-left">
+        <!-- Connected dot -->
         <div class="sb-item"><span class="conn-dot" id="connDot"></span><span id="connTxt">Connected</span></div>
-        <div class="sb-item">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity=".35" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <span id="postCount">0</span> posts · X/Twitter
-        </div>
-      </div>
-      <div class="sb-right">
-        <div class="sb-item handle-count">Handles: <span id="hcVal">0</span></div>
-        <!-- SERVER BTN -->
+        <!-- Server selector on LEFT -->
         <div style="position:relative;">
           <div class="server-btn" id="serverBtn" onclick="toggleServers()">
             <span class="server-dot"></span>
             <span id="serverLabel">EU-E</span>
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
-          <div class="server-dropdown" id="serverDropdown">
+          <div class="server-dropdown" id="serverDropdown" style="bottom:38px;left:0;right:auto;">
             <div class="srv-dd-head">
               <span class="srv-dd-title">Regions</span>
               <button class="srv-refresh" onclick="remeasurePings(event)" title="Refresh pings">
@@ -553,6 +547,16 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
             <div class="srv-list" id="srvList"></div>
           </div>
         </div>
+      </div>
+      <div class="sb-right">
+        <!-- Imported handles -->
+        <div class="sb-item handle-count">Imported Handles: <span id="hcVal">0</span></div>
+        <!-- Posts count -->
+        <div class="sb-item">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity=".35" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span id="postCount">0</span> posts · X/Twitter
+        </div>
+        <!-- Clock -->
         <div class="sb-item">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="clock">00:00:00</span>
