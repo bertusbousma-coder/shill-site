@@ -160,32 +160,42 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .sb-right{display:flex;align-items:center;gap:10px;}
 .handle-count{font-size:10.5px;color:rgba(255,255,255,0.27);letter-spacing:-.01em;}
 
-/* SERVER SELECTOR */
-.server-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none;font-size:11px;font-weight:500;color:rgba(255,255,255,0.45);transition:background .15s,color .15s;position:relative;letter-spacing:-.01em;}
-.server-btn:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);}
+/* SERVER SELECTOR - Axiom style */
+.server-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);transition:background .15s,color .15s;position:relative;letter-spacing:.01em;}
+.server-btn:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85);}
 .server-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 5px #22c55e;flex-shrink:0;}
-.server-dropdown{position:absolute;bottom:38px;right:0;width:210px;background:rgba(6,12,22,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;box-shadow:0 -12px 40px rgba(0,0,0,0.7);display:none;z-index:999;}
+.server-dropdown{position:absolute;bottom:38px;right:0;width:220px;background:rgba(8,13,24,0.99);border:1px solid rgba(255,255,255,0.09);border-radius:10px;overflow:hidden;box-shadow:0 -16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.03);display:none;z-index:999;}
 .server-dropdown.open{display:block;}
-.srv-dd-head{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 8px;border-bottom:1px solid rgba(255,255,255,0.07);}
-.srv-dd-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);}
-.srv-refresh{width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,0.05);border:none;color:rgba(255,255,255,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}
-.srv-refresh:hover{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);}
-.srv-refresh svg{width:10px;height:10px;}
-.srv-list{padding:4px 0;}
-.srv-row{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;cursor:pointer;transition:background .1s;position:relative;}
-.srv-row:hover{background:rgba(255,255,255,0.04);}
-.srv-row.active{background:rgba(42,143,196,0.08);}
-.srv-row.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--ac);border-radius:0 2px 2px 0;}
+.srv-dd-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 9px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.srv-dd-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.srv-refresh{width:20px;height:20px;border-radius:5px;background:transparent;border:none;color:rgba(255,255,255,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s;}
+.srv-refresh:hover{color:rgba(255,255,255,0.8);}
+.srv-refresh svg{width:12px;height:12px;}
+.srv-list{padding:3px 0 5px;}
+.srv-row{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;cursor:pointer;transition:background .1s;position:relative;}
+.srv-row:hover{background:rgba(255,255,255,0.035);}
+.srv-row.active{background:rgba(255,255,255,0.04);}
+.srv-row.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--ac3);border-radius:0 2px 2px 0;}
 .srv-row-left{display:flex;align-items:center;gap:8px;}
-.srv-icon{width:28px;height:20px;border-radius:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.srv-row.active .srv-icon{border-color:rgba(42,143,196,0.3);background:rgba(42,143,196,0.1);}
-.srv-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:-.01em;}
-.srv-row.active .srv-name{color:rgba(255,255,255,0.92);}
-.srv-right{display:flex;align-items:center;gap:6px;}
-.srv-bars{display:flex;align-items:flex-end;gap:1.5px;height:12px;}
-.srv-bar{width:3px;border-radius:1px;}
-.srv-bar.h1{height:3px;}.srv-bar.h2{height:6px;}.srv-bar.h3{height:9px;}.srv-bar.h4{height:12px;}
-.srv-ping{font-size:11.5px;font-weight:700;letter-spacing:-.01em;min-width:40px;text-align:right;}
+/* Box icon - matches Axiom's colored square icon */
+.srv-icon{
+  width:32px;height:22px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:9px;font-weight:800;
+  letter-spacing:.03em;color:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.06);
+}
+.srv-row.active .srv-icon{background:rgba(42,143,196,0.15);border-color:rgba(42,143,196,0.35);color:#fff;}
+.srv-row:hover .srv-icon{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.18);}
+.srv-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:.01em;}
+.srv-row.active .srv-name{color:rgba(255,255,255,0.95);}
+.srv-row:hover .srv-name{color:rgba(255,255,255,0.85);}
+.srv-right{display:flex;align-items:center;gap:7px;}
+.srv-bars{display:flex;align-items:flex-end;gap:2px;height:13px;}
+.srv-bar{width:3px;border-radius:1.5px;}
+.srv-bar.h1{height:4px;}.srv-bar.h2{height:7px;}.srv-bar.h3{height:10px;}.srv-bar.h4{height:13px;}
+.srv-ping{font-size:12px;font-weight:700;letter-spacing:-.01em;min-width:44px;text-align:right;}
 .pg{color:#22c55e;}.py{color:#f59e0b;}.pr{color:#ef4444;}
 
 /* OVERLAYS */
@@ -316,6 +326,35 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
   </div>
 </div>
 
+<!-- COMMUNITIES OVERLAY -->
+<div class="overlay" id="commOverlay">
+  <div class="panel" style="max-width:420px;">
+    <div class="panel-head">
+      <div class="panel-head-left">
+        <div class="panel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <div class="panel-htitle">X Communities</div>
+          <div class="panel-hsub">Track and monitor community posts</div>
+        </div>
+      </div>
+      <button class="panel-xbtn" onclick="closeComm()">✕</button>
+    </div>
+    <div style="padding:32px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+      <div style="width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div style="font-size:15px;font-weight:700;color:rgba(255,255,255,0.75);letter-spacing:-.02em;">No communities imported</div>
+      <p style="font-size:13px;color:rgba(255,255,255,0.32);line-height:1.7;max-width:300px;letter-spacing:-.01em;">X Communities support is coming soon. You'll be able to import and track community posts directly inside Shill.</p>
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(42,143,196,0.08);border:1px solid rgba(42,143,196,0.22);font-size:11.5px;color:var(--ac3);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Coming Soon
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN SHELL -->
 <div class="shell">
   <!-- SIDE -->
@@ -358,7 +397,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
         <div class="topbar-sep"></div>
         <div class="feed-tabs">
           <span class="feed-tab active" onclick="setTab(this,'main')">Main Feed</span>
-          <span class="feed-tab" onclick="setTab(this,'communities')">X Communities</span>
+          <span class="feed-tab" onclick="openComm()">X Communities</span>
         </div>
       </div>
       <div class="topbar-right">
@@ -420,29 +459,12 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
         </div>
       </div>
 
-      <!-- COMMUNITIES VIEW -->
-      <div id="commView" class="comm-view">
-        <div class="comm-inner">
-          <div class="empty-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <div class="empty-title">No communities imported</div>
-          <p class="empty-sub">X Communities support is coming soon. You'll be able to track community posts directly from Shill.</p>
-          <div class="comm-soon">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Coming Soon
-          </div>
-        </div>
-      </div>
-
     </div><!-- /content-area -->
 
     <!-- STATUS BAR -->
     <div class="statusbar">
       <div class="sb-left">
         <div class="sb-item"><span class="conn-dot" id="connDot"></span><span id="connTxt">Connected</span></div>
-        <div class="sb-item">
-          <div class="ping-bars"><div class="pb" id="pb1"></div><div class="pb" id="pb2"></div><div class="pb" id="pb3"></div><div class="pb off" id="pb4"></div></div>
-          <span id="pingVal">38ms</span>
-        </div>
         <div class="sb-item">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity=".35" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           <span id="postCount">0</span> posts · X/Twitter
@@ -481,18 +503,18 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 function setTab(el, tab) {
   document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('mainView').style.display = tab === 'communities' ? 'none' : 'flex';
-  document.getElementById('commView').style.display = tab === 'communities' ? 'flex' : 'none';
 }
 
 // ── OVERLAYS ──
 function openOverlay(id) { document.getElementById(id).classList.add('open'); }
 function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
-['importOverlay','handlesOverlay','cfgOverlay'].forEach(id => {
+['importOverlay','handlesOverlay','cfgOverlay','commOverlay'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) closeOverlay(id); });
 });
 function openCfg(e) { e.preventDefault(); openOverlay('cfgOverlay'); }
 function closeCfg() { closeOverlay('cfgOverlay'); }
+function openComm() { openOverlay('commOverlay'); }
+function closeComm() { closeOverlay('commOverlay'); }
 function openImport() {
   document.getElementById('filterInput').value = '';
   clearErr();
@@ -774,9 +796,7 @@ function renderSrvList() {
     const active = selectedSrv === s.id;
     return `<div class="srv-row${active?' active':''}" onclick="selectSrv('${s.id}')">
       <div class="srv-row-left">
-        <div class="srv-icon">
-          ${active ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="chk_'+s.id+'"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
-        </div>
+        <div class="srv-icon">${active ? '✓' : ''}</div>
         <span class="srv-name">${s.label}</span>
       </div>
       <div class="srv-right">
@@ -825,22 +845,14 @@ setInterval(measurePings, 30000);
 function tick() { document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
 tick(); setInterval(tick, 1000);
 
-// ── PING BARS ──
-let pb = 38;
+// ── CONN DOT ──
 setInterval(() => {
-  pb = Math.max(18, Math.min(115, pb + (Math.random()-.5)*12));
-  const v = Math.round(pb);
-  document.getElementById('pingVal').textContent = v+'ms';
-  const bars = [document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
-  if (v < 40)      bars.forEach(b => b.classList.remove('off'));
-  else if (v < 70) bars.forEach((b,i) => b.classList.toggle('off', i >= 3));
-  else if (v < 95) bars.forEach((b,i) => b.classList.toggle('off', i >= 2));
-  else             bars.forEach((b,i) => b.classList.toggle('off', i >= 1));
-  const dot = document.getElementById('connDot'), txt = document.getElementById('connTxt');
-  if (v < 70) { dot.className='conn-dot'; txt.textContent='Connected'; }
-  else if (v < 95) { dot.className='conn-dot yellow'; txt.textContent='Slow'; }
-  else { dot.className='conn-dot red'; txt.textContent='High latency'; }
-}, 2800);
+  const dot = document.getElementById('connDot');
+  const txt = document.getElementById('connTxt');
+  // Keep green/connected most of the time
+  dot.className = 'conn-dot';
+  txt.textContent = 'Connected';
+}, 5000);
 </script>
 </body>
 </html>
