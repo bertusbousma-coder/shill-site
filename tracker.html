@@ -737,9 +737,8 @@
         <span class="page-title">Trackers</span>
         <div class="topbar-sep"></div>
         <div class="feed-tabs">
-          <span class="feed-tab active" onclick="setTab(this)">Main Feed</span>
-          <span class="feed-tab" onclick="setTab(this)">KOLs</span>
-          <span class="feed-tab" onclick="setTab(this)">Watchlist</span>
+          <span class="feed-tab active" onclick="setTab(this,'main')">Main Feed</span>
+          <span class="feed-tab" onclick="setTab(this,'communities')">X Communities</span>
         </div>
       </div>
       <div class="topbar-right">
@@ -803,6 +802,22 @@
       </div>
     </div><!-- /feed-wrap -->
 
+    <!-- COMMUNITIES VIEW -->
+    <div id="commView" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:40px 24px;text-align:center;">
+      <div style="width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);margin-bottom:4px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div style="font-size:14.5px;font-weight:600;color:rgba(255,255,255,0.62);letter-spacing:-.02em;">No communities imported</div>
+      <p style="font-size:12.5px;color:rgba(255,255,255,0.28);line-height:1.65;max-width:260px;letter-spacing:-.01em;">X Communities support is coming soon. You'll be able to track and monitor community posts directly from Shill.</p>
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(42,143,196,0.08);border:1px solid rgba(42,143,196,0.2);font-size:11.5px;color:var(--ac3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Coming Soon
+      </div>
+    </div>
+
     <!-- STATUS BAR -->
     <div class="statusbar">
       <div class="sb-left">
@@ -846,9 +861,18 @@
 
 <script>
 // ── TABS ──
-function setTab(el){
+function setTab(el, tab){
   document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
+  const feedWrap = document.getElementById('feedWrap');
+  const commView = document.getElementById('commView');
+  if(tab === 'communities'){
+    feedWrap.style.display = 'none';
+    commView.style.display = 'flex';
+  } else {
+    feedWrap.style.display = 'flex';
+    commView.style.display = 'none';
+  }
 }
 
 // ── OVERLAY HELPERS ──
