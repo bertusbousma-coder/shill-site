@@ -202,11 +202,28 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .handle-count{font-size:10.5px;color:rgba(255,255,255,0.27);letter-spacing:-.01em;}
 
 /* SERVER SELECTOR - Axiom style */
-.server-btn{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);transition:background .15s,color .15s;position:relative;letter-spacing:.01em;}
+.server-btn{display:flex;align-items:center;gap:6px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;user-select:none;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);transition:background .15s,color .15s;position:relative;letter-spacing:.01em;}
 .server-btn:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85);}
-.server-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 5px #22c55e;flex-shrink:0;}
-.server-dropdown{position:absolute;bottom:38px;right:0;width:220px;background:rgba(8,13,24,0.99);border:1px solid rgba(255,255,255,0.09);border-radius:10px;overflow:hidden;box-shadow:0 -16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.03);display:none;z-index:999;}
-.server-dropdown.open{display:block;}
+.server-btn svg.rack-icon{width:13px;height:13px;flex-shrink:0;opacity:.6;}
+@keyframes srvIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes srvOut{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(8px);}}
+.server-dropdown{
+  position:absolute;bottom:38px;left:0;right:auto;width:210px;
+  background:#000;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 -20px 60px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06);
+  display:none;z-index:999;
+}
+.server-dropdown::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%, rgba(42,143,196,0.08) 0%, transparent 60%),
+             radial-gradient(ellipse at 0% 100%, rgba(42,143,196,0.05) 0%, transparent 50%);
+  z-index:0;border-radius:12px;
+}
+.server-dropdown>*{position:relative;z-index:1;}
+.server-dropdown.open{display:block;animation:srvIn .18s cubic-bezier(.22,1,.36,1) forwards;}
+.server-dropdown.closing{animation:srvOut .14s ease forwards;}
 .srv-dd-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 9px;border-bottom:1px solid rgba(255,255,255,0.07);}
 .srv-dd-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
 .srv-refresh{width:20px;height:20px;border-radius:5px;background:transparent;border:none;color:rgba(255,255,255,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s;}
@@ -219,16 +236,10 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .srv-row.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--ac3);border-radius:0 2px 2px 0;}
 .srv-row-left{display:flex;align-items:center;gap:8px;}
 /* Box icon - matches Axiom's colored square icon */
-.srv-icon{
-  width:32px;height:22px;border-radius:4px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;font-size:9px;font-weight:800;
-  letter-spacing:.03em;color:rgba(255,255,255,0.7);
-  border:1px solid rgba(255,255,255,0.12);
-  background:rgba(255,255,255,0.06);
-}
-.srv-row.active .srv-icon{background:rgba(42,143,196,0.15);border-color:rgba(42,143,196,0.35);color:#fff;}
-.srv-row:hover .srv-icon{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.18);}
+.srv-icon{width:28px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);}
+.srv-icon svg{width:13px;height:13px;}
+.srv-row.active .srv-icon{background:rgba(42,143,196,0.12);border-color:rgba(42,143,196,0.3);color:rgba(255,255,255,0.9);}
+.srv-row:hover .srv-icon{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.16);color:rgba(255,255,255,0.85);}
 .srv-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:.01em;}
 .srv-row.active .srv-name{color:rgba(255,255,255,0.95);}
 .srv-row:hover .srv-name{color:rgba(255,255,255,0.85);}
@@ -501,12 +512,12 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 
     <!-- BOTTOM: Discord + X -->
     <div class="side-bottom">
-      <a href="https://discord.gg/shill" target="_blank" rel="noopener" style="margin:0 10px 8px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:9px;background:rgba(88,101,242,0.09);border:1px solid rgba(88,101,242,0.16);font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);text-decoration:none;transition:background .2s,color .2s;letter-spacing:-.01em;" onmouseover="this.style.background='rgba(88,101,242,0.18)';this.style.color='#fff'" onmouseout="this.style.background='rgba(88,101,242,0.09)';this.style.color='rgba(255,255,255,0.6)'">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <a href="https://discord.gg/shill" target="_blank" rel="noopener" class="side-bottom-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
         Join Discord
       </a>
-      <a href="https://x.com/shillsite" target="_blank" rel="noopener" style="margin:0 10px 16px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);text-decoration:none;transition:background .2s,color .2s;letter-spacing:-.01em;" onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.color='rgba(255,255,255,0.6)'">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://x.com/shillsite" target="_blank" rel="noopener" class="side-bottom-link" style="border-top:1px solid rgba(255,255,255,0.04);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Follow on X
       </a>
     </div>
@@ -1108,12 +1119,13 @@ async function measurePings() {
 function renderSrvList() {
   const list = document.getElementById('srvList');
   if (!list) return;
+  const RACK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="5" rx="1"/><circle cx="19" cy="5.5" r="1" fill="currentColor" stroke="none"/><rect x="2" y="10" width="20" height="5" rx="1"/><circle cx="19" cy="12.5" r="1" fill="currentColor" stroke="none"/><rect x="2" y="17" width="20" height="5" rx="1"/><circle cx="19" cy="19.5" r="1" fill="currentColor" stroke="none"/></svg>`;
   list.innerHTML = SERVERS.map(s => {
     const ping = srvPings[s.id] ?? (s.base + 15);
     const active = selectedSrv === s.id;
     return `<div class="srv-row${active?' active':''}" onclick="selectSrv('${s.id}')">
       <div class="srv-row-left">
-        <div class="srv-icon">${active ? '✓' : ''}</div>
+        <div class="srv-icon">${RACK}</div>
         <span class="srv-name">${s.label}</span>
       </div>
       <div class="srv-right">
@@ -1122,10 +1134,6 @@ function renderSrvList() {
       </div>
     </div>`;
   }).join('');
-  // Fix SVG stroke color after render
-  document.querySelectorAll('[id^="chk_"]').forEach(svg => {
-    svg.setAttribute('stroke', 'var(--ac3)');
-  });
 }
 
 function selectSrv(id) {
@@ -1137,7 +1145,13 @@ function selectSrv(id) {
 }
 
 function toggleServers() {
-  document.getElementById('serverDropdown').classList.toggle('open');
+  const dd = document.getElementById('serverDropdown');
+  if (dd.classList.contains('open')) {
+    dd.classList.add('closing');
+    setTimeout(() => { dd.classList.remove('open','closing'); }, 140);
+  } else {
+    dd.classList.add('open');
+  }
 }
 
 function remeasurePings(e) {
@@ -1152,7 +1166,10 @@ function remeasurePings(e) {
 document.addEventListener('click', e => {
   const dd = document.getElementById('serverDropdown');
   const btn = document.getElementById('serverBtn');
-  if (!btn.contains(e.target) && !dd.contains(e.target)) dd.classList.remove('open');
+  if (!btn.contains(e.target) && !dd.contains(e.target) && dd.classList.contains('open')) {
+    dd.classList.add('closing');
+    setTimeout(() => { dd.classList.remove('open','closing'); }, 140);
+  }
 });
 
 measurePings();
