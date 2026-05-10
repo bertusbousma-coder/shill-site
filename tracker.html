@@ -34,7 +34,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .side-show-btn.visible{display:flex;}
 .side-top{padding:16px 14px 12px;border-bottom:1px solid rgba(255,255,255,0.055);flex-shrink:0;}
 .side-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.side-logo img{height:22px;width:auto;filter:drop-shadow(0 0 8px rgba(42,143,196,0.45));}
+.side-logo img{height:30px;width:auto;filter:drop-shadow(0 0 8px rgba(42,143,196,0.45));}
 .side-logo-name{font-size:15px;font-weight:800;letter-spacing:-.02em;color:#fff;}
 .side-tagline{font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:.04em;margin-top:3px;}
 .side-nav{padding:10px 8px;display:flex;flex-direction:column;gap:1px;flex:1;overflow-y:auto;}
@@ -482,18 +482,6 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
           </div>
         </div>
         <div class="color-row">
-          <span class="color-label">Site background</span>
-          <div class="color-swatch" style="background:#000000;">
-            <input type="color" id="cpSiteBg" value="#000000" oninput="this.parentElement.style.background=this.value;saveColors()">
-          </div>
-        </div>
-        <div class="color-row">
-          <span class="color-label">Feed background</span>
-          <div class="color-swatch" style="background:#000000;">
-            <input type="color" id="cpFeedBg" value="#000000" oninput="this.parentElement.style.background=this.value;saveColors()">
-          </div>
-        </div>
-        <div class="color-row">
           <span class="color-label">Text color</span>
           <div class="color-swatch" style="background:#ffffff;">
             <input type="color" id="cpText" value="#ffffff" oninput="this.parentElement.style.background=this.value;saveColors()">
@@ -513,12 +501,12 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 
     <!-- BOTTOM: Discord + X -->
     <div class="side-bottom">
-      <a href="https://discord.gg/shill" target="_blank" rel="noopener" class="side-bottom-link">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <a href="https://discord.gg/shill" target="_blank" rel="noopener" style="margin:0 10px 8px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:9px;background:rgba(88,101,242,0.09);border:1px solid rgba(88,101,242,0.16);font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);text-decoration:none;transition:background .2s,color .2s;letter-spacing:-.01em;" onmouseover="this.style.background='rgba(88,101,242,0.18)';this.style.color='#fff'" onmouseout="this.style.background='rgba(88,101,242,0.09)';this.style.color='rgba(255,255,255,0.6)'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
         Join Discord
       </a>
-      <a href="https://x.com/shillsite" target="_blank" rel="noopener" class="side-bottom-link">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://x.com/shillsite" target="_blank" rel="noopener" style="margin:0 10px 16px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);text-decoration:none;transition:background .2s,color .2s;letter-spacing:-.01em;" onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.color='rgba(255,255,255,0.6)'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Follow on X
       </a>
     </div>
@@ -539,7 +527,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
       <div class="topbar-right">
         <div class="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" placeholder="Search posts..."/>
+          <input class="search-input" type="text" placeholder="Search handles..."/>
         </div>
         <button class="tb-btn hidden" id="viewHandlesBtn" onclick="openHandles()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -654,8 +642,6 @@ const defaults = {
   ac3: '#4db8e0',
   cardBg: '#050c16',
   cardBorder: '#2a8fc4',
-  feedBg: '#000000',
-  siteBg: '#000000',
   textColor: '#ffffff',
 };
 
@@ -671,68 +657,40 @@ function applyColors(c) {
   const ac3 = hexToRgb(c.ac3);
   const bg = hexToRgb(c.cardBg);
   const border = hexToRgb(c.cardBorder);
-  const feed = hexToRgb(c.feedBg);
-  const site = hexToRgb(c.siteBg || '#000000');
+  const txt = hexToRgb(c.textColor);
 
-  // CSS vars
+  // CSS vars only — do NOT touch body background or blobs (keeps original gradient)
   document.documentElement.style.setProperty('--ac', c.ac);
   document.documentElement.style.setProperty('--ac2', `rgb(${Math.round(ac.r*.75)},${Math.round(ac.g*.75)},${Math.round(ac.b*.75)})`);
   document.documentElement.style.setProperty('--ac3', c.ac3);
   document.documentElement.style.setProperty('--glow', `rgba(${ac.r},${ac.g},${ac.b},0.28)`);
 
-  // Site background — keep the blob hues but tint them with the chosen color
-  document.body.style.background = `rgb(${site.r},${site.g},${site.b})`;
-
-  // Blobs always glow in the chosen site color, just slightly lighter/more saturated
-  const b1 = document.querySelector('.b1');
-  const b2 = document.querySelector('.b2');
-  // Boost the color for the blob — make it more vivid than the bg
-  const boost = (v, add) => Math.min(Math.round(v * 1.4 + add), 255);
-  if (b1) b1.style.background = `radial-gradient(circle, rgba(${boost(site.r,20)},${boost(site.g,15)},${boost(site.b,60)},0.55) 0%, transparent 70%)`;
-  if (b2) b2.style.background = `radial-gradient(circle, rgba(${boost(site.r,10)},${boost(site.g,20)},${boost(site.b,80)},0.45) 0%, transparent 70%)`;
-
-  // Inject a style tag for dynamic rules
+  // Dynamic style overrides
   let style = document.getElementById('dynamicColors');
   if (!style) { style = document.createElement('style'); style.id = 'dynamicColors'; document.head.appendChild(style); }
 
   style.textContent = `
-    html, body { background: rgb(${site.r},${site.g},${site.b}) !important; }
-    .bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 20% 0%, rgba(${boost(site.r,30)},${boost(site.g,20)},${boost(site.b,90)},0.18) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 100%, rgba(${boost(site.r,15)},${boost(site.g,30)},${boost(site.b,100)},0.14) 0%, transparent 60%);
-      pointer-events: none;
-    }
     .tweet-card {
       background: rgb(${bg.r},${bg.g},${bg.b}) !important;
       border-color: rgba(${border.r},${border.g},${border.b},0.25) !important;
     }
-    .tweet-card:hover {
-      border-color: rgba(${border.r},${border.g},${border.b},0.55) !important;
-    }
+    .tweet-card:hover { border-color: rgba(${border.r},${border.g},${border.b},0.55) !important; }
     .tc-head { border-bottom-color: rgba(${border.r},${border.g},${border.b},0.15) !important; }
     .tc-footer { border-top-color: rgba(${border.r},${border.g},${border.b},0.12) !important; }
-    .tc-body { color: rgba(${hexToRgb(c.textColor).r},${hexToRgb(c.textColor).g},${hexToRgb(c.textColor).b},0.88) !important; }
+    .tc-body { color: rgba(${txt.r},${txt.g},${txt.b},0.88) !important; }
     .tc-body a, .tc-ticker { color: ${c.ac3} !important; }
-    .tc-name-row > span { color: rgb(${hexToRgb(c.textColor).r},${hexToRgb(c.textColor).g},${hexToRgb(c.textColor).b}) !important; }
+    .tc-name-row > span { color: rgb(${txt.r},${txt.g},${txt.b}) !important; }
     .tc-handle:hover { color: ${c.ac3} !important; }
-    .tc-verified { color: #e8b408 !important; }
-    .feed-scroll, #mainView { background: rgb(${feed.r},${feed.g},${feed.b}) !important; }
-    .side { background: rgba(${Math.min(site.r+8,255)},${Math.min(site.g+8,255)},${Math.min(site.b+8,255)},0.6) !important; }
-    .topbar { background: rgba(${site.r},${site.g},${site.b},0.35) !important; }
-    .statusbar { background: rgba(${site.r},${site.g},${site.b},0.7) !important; }
-    .conn-dot { background: #22c55e !important; box-shadow: 0 0 5px #22c55e !important; }
-    .feed-tab.active { background: rgba(${ac.r},${ac.g},${ac.b},0.1) !important; color: rgba(255,255,255,0.9) !important; }
-    .side-link.active { background: rgba(${ac.r},${ac.g},${ac.b},0.12) !important; }
-    .side-link.active svg { color: ${c.ac3} !important; }
     .tc-preview { border-color: rgba(${border.r},${border.g},${border.b},0.18) !important; }
     .tc-preview:hover { border-color: rgba(${ac.r},${ac.g},${ac.b},0.6) !important; }
+    .feed-tab.active { background: rgba(${ac.r},${ac.g},${ac.b},0.1) !important; }
+    .side-link.active { background: rgba(${ac.r},${ac.g},${ac.b},0.12) !important; }
+    .side-link.active svg { color: ${c.ac3} !important; }
     .srv-row.active { background: rgba(${ac.r},${ac.g},${ac.b},0.1) !important; }
     .srv-row.active::before { background: ${c.ac3} !important; }
-    .btn-apply, .comm-add-btn, .cfg-login-btn { background: ${c.ac} !important; }
-    .tb-btn:hover { border-color: rgba(${ac.r},${ac.g},${ac.b},0.4) !important; }
+    .btn-apply, .comm-add-btn, .cfg-login-btn, .e-btn-p { background: ${c.ac} !important; }
+    .plat-tab.active { border-bottom-color: ${c.ac} !important; }
+    .conn-dot { background: #22c55e !important; box-shadow: 0 0 5px #22c55e !important; }
   `;
 }
 
@@ -744,13 +702,11 @@ function saveColors() {
 
 function getCurrentColors() {
   return {
-    ac:          document.getElementById('cpAc').value,
-    ac3:         document.getElementById('cpAc3').value,
-    cardBg:      document.getElementById('cpCardBg').value,
-    cardBorder:  document.getElementById('cpCardBorder').value,
-    feedBg:      document.getElementById('cpFeedBg').value,
-    siteBg:      document.getElementById('cpSiteBg').value,
-    textColor:   document.getElementById('cpText').value,
+    ac:         document.getElementById('cpAc').value,
+    ac3:        document.getElementById('cpAc3').value,
+    cardBg:     document.getElementById('cpCardBg').value,
+    cardBorder: document.getElementById('cpCardBorder').value,
+    textColor:  document.getElementById('cpText').value,
   };
 }
 
@@ -759,30 +715,16 @@ function resetColors() {
   document.getElementById('cpAc3').value = defaults.ac3;
   document.getElementById('cpCardBg').value = defaults.cardBg;
   document.getElementById('cpCardBorder').value = defaults.cardBorder;
-  document.getElementById('cpFeedBg').value = defaults.feedBg;
-  document.getElementById('cpSiteBg').value = defaults.siteBg;
   document.getElementById('cpText').value = defaults.textColor;
-  // reset swatch backgrounds
   document.getElementById('cpAc').parentElement.style.background = defaults.ac;
   document.getElementById('cpAc3').parentElement.style.background = defaults.ac3;
   document.getElementById('cpCardBg').parentElement.style.background = defaults.cardBg;
   document.getElementById('cpCardBorder').parentElement.style.background = defaults.cardBorder;
-  document.getElementById('cpFeedBg').parentElement.style.background = defaults.feedBg;
-  document.getElementById('cpSiteBg').parentElement.style.background = defaults.siteBg;
   document.getElementById('cpText').parentElement.style.background = defaults.textColor;
-  // reset blobs
-  const b1 = document.querySelector('.b1');
-  const b2 = document.querySelector('.b2');
-  if (b1) b1.style.background = '';
-  if (b2) b2.style.background = '';
-  document.body.style.background = '';
   try { localStorage.removeItem('shill_colors'); } catch(e) {}
   const style = document.getElementById('dynamicColors');
   if (style) style.textContent = '';
-  document.documentElement.style.removeProperty('--ac');
-  document.documentElement.style.removeProperty('--ac2');
-  document.documentElement.style.removeProperty('--ac3');
-  document.documentElement.style.removeProperty('--glow');
+  ['--ac','--ac2','--ac3','--glow'].forEach(v => document.documentElement.style.removeProperty(v));
 }
 
 // Load saved colors on startup
@@ -791,11 +733,11 @@ function resetColors() {
     const saved = localStorage.getItem('shill_colors');
     if (saved) {
       const c = JSON.parse(saved);
-      Object.entries(c).forEach(([k,v]) => {
-        const key = 'cp' + k.charAt(0).toUpperCase() + k.slice(1);
-        const el = document.getElementById(key);
-        if (el) el.value = v;
-      });
+      if (c.ac)         { document.getElementById('cpAc').value = c.ac; document.getElementById('cpAc').parentElement.style.background = c.ac; }
+      if (c.ac3)        { document.getElementById('cpAc3').value = c.ac3; document.getElementById('cpAc3').parentElement.style.background = c.ac3; }
+      if (c.cardBg)     { document.getElementById('cpCardBg').value = c.cardBg; document.getElementById('cpCardBg').parentElement.style.background = c.cardBg; }
+      if (c.cardBorder) { document.getElementById('cpCardBorder').value = c.cardBorder; document.getElementById('cpCardBorder').parentElement.style.background = c.cardBorder; }
+      if (c.textColor)  { document.getElementById('cpText').value = c.textColor; document.getElementById('cpText').parentElement.style.background = c.textColor; }
       applyColors(c);
     }
   } catch(e) {}
