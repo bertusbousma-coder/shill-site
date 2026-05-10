@@ -478,84 +478,44 @@
     .btn-cfg-s:hover { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.7); }
 
     /* ── TWEET CARDS ── */
-    .feed-scroll {
-      flex: 1; overflow-y: auto;
-      padding: 0;
-      display: flex; flex-direction: column;
-    }
-    .tweet-card {
-      border-bottom: 1px solid rgba(255,255,255,0.055);
-      padding: 14px 20px;
-      transition: background .12s;
-      cursor: default;
-    }
-    .tweet-card:hover { background: rgba(255,255,255,0.02); }
-    .tweet-top {
-      display: flex; align-items: flex-start; gap: 11px;
-      margin-bottom: 0;
-    }
-    .tweet-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      flex-shrink: 0; overflow: hidden;
-      background: rgba(42,143,196,0.15);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .tweet-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .tweet-av-fb {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 700;
-      color: var(--ac3); text-transform: uppercase;
-    }
-    .tweet-body { flex: 1; min-width: 0; }
-    .tweet-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 4px; gap: 8px;
-    }
-    .tweet-header-left { display: flex; align-items: center; gap: 6px; min-width: 0; }
-    .tweet-name {
-      font-size: 13.5px; font-weight: 700;
-      color: rgba(255,255,255,0.92);
-      letter-spacing: -.01em;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .tweet-verified { width: 14px; height: 14px; color: var(--ac3); flex-shrink: 0; }
-    .tweet-handle {
-      font-size: 12px; color: rgba(255,255,255,0.3);
-      letter-spacing: -.01em; white-space: nowrap;
-    }
-    .tweet-followers {
-      font-size: 11px; color: rgba(255,255,255,0.22);
-      letter-spacing: -.01em; white-space: nowrap;
-    }
-    .tweet-time {
-      font-size: 11px; color: rgba(255,255,255,0.25);
-      white-space: nowrap; flex-shrink: 0;
-      letter-spacing: -.01em;
-    }
-    .tweet-content {
-      font-size: 13.5px; color: rgba(255,255,255,0.82);
-      line-height: 1.62; letter-spacing: -.01em;
-      margin-bottom: 10px; word-break: break-word;
-    }
-    .tweet-content a, .tweet-content-link { color: var(--ac3); text-decoration: none; }
-    .tweet-content a:hover, .tweet-content-link:hover { text-decoration: underline; }
-    .tweet-ticker { color: var(--ac3); font-weight: 600; }
-    .tweet-mention { color: var(--ac3); }
-    .tweet-media {
-      border-radius: 10px; overflow: hidden;
-      margin-bottom: 4px;
-      border: 1px solid rgba(255,255,255,0.07);
-      max-width: 100%;
-    }
-    .tweet-media img {
-      width: 100%; display: block;
-      max-height: 320px; object-fit: cover;
-    }
-    .tweet-media video {
-      width: 100%; display: block;
-      max-height: 320px;
-    }
+    .feed-scroll { flex:1; overflow-y:auto; padding:8px 0; display:flex; flex-direction:column; gap:8px; }
+    .tweet-card { border:1.5px solid rgba(255,255,255,0.08); border-radius:10px; margin:0 10px; overflow:hidden; background:rgba(15,15,23,0.98); transition:border-color .15s; }
+    .tweet-card:hover { border-color:rgba(42,143,196,0.4); }
+    .tc-head { display:flex; align-items:center; height:58px; min-width:0; overflow:hidden; padding-left:10px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .tc-head-inner { display:flex; align-items:center; gap:10px; flex:1; min-width:0; overflow:hidden; padding:8px 0; }
+    .tc-avatar { width:40px; height:40px; border-radius:50%; flex-shrink:0; overflow:hidden; border:1px solid rgba(255,255,255,0.1); background:rgba(42,143,196,0.15); }
+    .tc-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    .tc-avatar-fb { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:var(--ac3); }
+    .tc-info { display:flex; flex-direction:column; flex:1; min-width:0; overflow:hidden; }
+    .tc-name-row { display:flex; align-items:center; gap:4px; font-size:14px; font-weight:600; color:rgba(255,255,255,0.95); letter-spacing:-.01em; }
+    .tc-name-row > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .tc-verified { width:14px; height:14px; color:#e8b408; flex-shrink:0; }
+    .tc-sub { display:flex; align-items:center; gap:5px; margin-top:4px; flex-wrap:wrap; }
+    .tc-handle { font-size:12px; color:rgba(255,255,255,0.38); letter-spacing:-.01em; text-decoration:none; }
+    .tc-handle:hover { color:var(--ac3); }
+    .tc-followers { display:inline-flex; align-items:center; gap:3px; padding:1px 6px; border-radius:999px; background:rgba(255,255,255,0.05); font-size:11px; color:rgba(255,255,255,0.6); }
+    .tc-followers svg { width:10px; height:10px; opacity:.7; }
+    .tc-body { padding:10px 14px 0; font-size:13.5px; color:rgba(255,255,255,0.88); line-height:1.62; letter-spacing:-.01em; word-break:break-word; white-space:pre-wrap; }
+    .tc-body a { color:var(--ac3); text-decoration:none; }
+    .tc-body a:hover { text-decoration:underline; }
+    .tc-ticker { color:var(--ac3); font-weight:600; }
+    .tc-preview { margin:10px 14px; border-radius:9px; overflow:hidden; border:1px solid rgba(255,255,255,0.09); text-decoration:none; display:block; transition:border-color .15s; }
+    .tc-preview:hover { border-color:rgba(42,143,196,0.5); }
+    .tc-preview-img { width:100%; max-height:200px; object-fit:cover; display:block; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .tc-preview-info { padding:9px 12px; }
+    .tc-preview-domain { font-size:11px; color:rgba(255,255,255,0.35); margin-bottom:4px; letter-spacing:-.01em; }
+    .tc-preview-title { font-size:13px; font-weight:500; color:rgba(255,255,255,0.8); line-height:1.4; letter-spacing:-.01em; }
+    .tc-media { margin:10px 14px; border-radius:9px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); }
+    .tc-media img, .tc-media video { width:100%; display:block; max-height:320px; object-fit:cover; }
+    .tc-footer { display:flex; align-items:center; justify-content:space-between; padding:7px 12px; border-top:1px solid rgba(255,255,255,0.06); margin-top:8px; }
+    .tc-footer-left { display:flex; align-items:center; gap:12px; }
+    .tc-footer-btn { display:flex; align-items:center; gap:5px; font-size:11px; color:rgba(255,255,255,0.28); cursor:pointer; background:none; border:none; transition:color .15s; letter-spacing:-.01em; font-family:'Inter',sans-serif; }
+    .tc-footer-btn:hover { color:rgba(255,255,255,0.65); }
+    .tc-footer-btn svg { width:12px; height:12px; }
+    .tc-time { font-size:11px; color:rgba(255,255,255,0.28); letter-spacing:-.01em; cursor:default; }
+    .tc-view { display:flex; align-items:center; gap:4px; font-size:11px; color:rgba(255,255,255,0.28); text-decoration:none; transition:color .15s; }
+    .tc-view:hover { color:rgba(255,255,255,0.7); }
+    .tc-view svg { width:10px; height:10px; }
     /* feed wrapper */
     .feed-wrap {
       flex: 1; display: flex; flex-direction: column;
@@ -988,52 +948,76 @@ function renderFeed(posts) {
   if (empty)  empty.style.display  = 'none';
   if (scroll) scroll.style.display = 'block';
 
-
-  const formatText = t => (t||'')
+  const fmt = t => (t||'')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener" class="tweet-content-link">$1</a>')
-    .replace(/(\$[A-Z]{2,10})/g, '<span class="tweet-ticker">$1</span>')
-    .replace(/(@[\w]+)/g, '<span class="tweet-mention">$1</span>')
+    .replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+    .replace(/(\$[A-Z]{2,10})/g,'<span class="tc-ticker">$1</span>')
     .replace(/\n/g,'<br>');
+
+  const VERIFIED_SVG = `<svg class="tc-verified" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>`;
+  const USERS_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>`;
+  const EXT_LINK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>`;
+  const TRANSLATE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg>`;
 
   feed.innerHTML = posts.map(p => `
     <div class="tweet-card">
-      <div class="tweet-top">
 
-        <!-- Avatar -->
-        <div class="tweet-avatar">
-          ${p.avatar_url
-            ? `<img src="${p.avatar_url}" alt="${p.handle}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="tweet-av-fb" style="display:none">${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>`
-            : `<div class="tweet-av-fb">${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>`
-          }
-        </div>
-
-        <!-- Body -->
-        <div class="tweet-body">
-          <!-- Header row -->
-          <div class="tweet-header">
-            <div class="tweet-header-left">
-              <span class="tweet-name">${p.display_name && p.display_name !== 'unknown' ? p.display_name : p.handle}</span>
-              ${p.verified ? `<svg class="tweet-verified" viewBox="0 0 24 24" fill="currentColor"><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.8c.67 1.31 1.91 2.2 3.34 2.2s2.68-.89 3.34-2.2c1.39.46 2.9.21 3.91-.8s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"/></svg>` : ''}
-              <span class="tweet-handle">@${p.handle}</span>
-              ${p.followers ? `<span class="tweet-followers">· ${p.followers}</span>` : ''}
+      <!-- HEADER -->
+      <div class="tc-head">
+        <div class="tc-head-inner">
+          <!-- Avatar -->
+          <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" style="flex-shrink:0;">
+            <div class="tc-avatar">
+              ${p.avatar_url
+                ? `<img src="${p.avatar_url}" alt="${p.handle} avatar" loading="lazy" onerror="this.parentElement.innerHTML='<div class=tc-avatar-fb>${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>'">`
+                : `<div class="tc-avatar-fb">${(p.display_name||p.handle||'?')[0].toUpperCase()}</div>`}
             </div>
-            <span class="tweet-time">${timeAgo(p.tweet_time || p.scraped_at)}</span>
+          </a>
+          <!-- Info -->
+          <div class="tc-info">
+            <div class="tc-name-row">
+              <span>${p.display_name && p.display_name !== 'unknown' ? p.display_name : p.handle}</span>
+              ${p.verified ? VERIFIED_SVG : ''}
+            </div>
+            <div class="tc-sub">
+              <a href="https://x.com/${p.handle}" target="_blank" rel="noopener" class="tc-handle">@${p.handle}</a>
+              ${p.followers ? `<span class="tc-followers">${USERS_SVG}${p.followers}</span>` : ''}
+            </div>
           </div>
-
-          <!-- Tweet text -->
-          ${p.content ? `<div class="tweet-content">${formatText(p.content)}</div>` : ''}
-
-          <!-- Media -->
-          ${p.media_url && p.media_type === 'image'
-            ? `<div class="tweet-media"><img src="${p.media_url}" alt="media" loading="lazy"></div>`
-            : ''}
-          ${p.media_url && p.media_type === 'video'
-            ? `<div class="tweet-media"><video src="${p.media_url}" controls muted playsinline></video></div>`
-            : ''}
         </div>
-
       </div>
+
+      <!-- TWEET TEXT -->
+      ${p.content ? `<div class="tc-body">${fmt(p.content)}</div>` : ''}
+
+      <!-- LINK PREVIEW CARD -->
+      ${p.link_preview_url && p.link_preview_image ? `
+        <a href="${p.link_preview_url}" target="_blank" rel="noopener" class="tc-preview">
+          <img src="${p.link_preview_image}" class="tc-preview-img" alt="" loading="lazy">
+          <div class="tc-preview-info">
+            ${p.link_preview_domain ? `<div class="tc-preview-domain">${p.link_preview_domain}</div>` : ''}
+            ${p.link_preview_title ? `<div class="tc-preview-title">${p.link_preview_title}</div>` : ''}
+          </div>
+        </a>` : ''}
+
+      <!-- MEDIA (tweet images/video) -->
+      ${p.media_url && p.media_type === 'image' ? `
+        <div class="tc-media"><img src="${p.media_url}" alt="media" loading="lazy"></div>` : ''}
+      ${p.media_url && p.media_type === 'video' ? `
+        <div class="tc-media"><video src="${p.media_url}" controls muted playsinline></video></div>` : ''}
+
+      <!-- FOOTER -->
+      <div class="tc-footer">
+        <div class="tc-footer-left">
+          <button class="tc-footer-btn">${TRANSLATE_SVG} Translate</button>
+          <span style="font-size:11px;color:rgba(255,255,255,0.2);">EN</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="tc-time">${p.time_ago || timeAgo(p.tweet_time || p.scraped_at)}</span>
+          ${p.tweet_url ? `<a href="${p.tweet_url}" target="_blank" rel="noopener" class="tc-view">View ${EXT_LINK_SVG}</a>` : ''}
+        </div>
+      </div>
+
     </div>
   `).join('');
 
