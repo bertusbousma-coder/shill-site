@@ -57,17 +57,17 @@
     .side-logo img{height:120px;width:auto;filter:drop-shadow(0 0 16px rgba(42,143,196,0.7));display:block;margin:0 auto;}
     .side-logo-fb{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
     .side-tagline{font-size:9.5px;color:var(--muted2);letter-spacing:.05em;padding-left:1px;}
-    .side-nav{padding:12px 10px;display:flex;flex-direction:column;gap:1px;flex:1;}
-    .side-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);padding:0 8px;margin-bottom:5px;margin-top:4px;}
+    .side-nav{padding:10px 10px;display:flex;flex-direction:column;gap:2px;flex:1;}
+    .side-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);padding:0 8px;margin-bottom:5px;margin-top:8px;}
     .side-item{
-      display:flex;align-items:center;gap:10px;
-      padding:9px 10px;border-radius:8px;
-      font-size:13px;font-weight:500;color:rgba(255,255,255,0.48);
+      display:flex;align-items:center;gap:11px;
+      padding:11px 12px;border-radius:9px;
+      font-size:14px;font-weight:500;color:rgba(255,255,255,0.48);
       cursor:pointer;user-select:none;transition:color .15s,background .15s;text-decoration:none;
       letter-spacing:-.01em;
     }
     .side-item:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.05);}
-    .side-item svg{width:14px;height:14px;opacity:.55;flex-shrink:0;}
+    .side-item svg{width:16px;height:16px;opacity:.55;flex-shrink:0;}
     .side-item:hover svg{opacity:.9;}
     .side-divider{height:1px;background:rgba(255,255,255,0.055);margin:6px 10px;}
     .side-discord{
@@ -423,12 +423,7 @@
 <div class="shell">
   <!-- side panel -->
   <aside class="side">
-    <div class="side-top">
-      <a href="index.html" class="side-logo">
-        <img src="logo.png" alt="Shill" style="height:30px;" onerror="this.style.display='none';document.getElementById('sfb').style.display='block'"/>
-        <span id="sfb" class="side-logo-fb" style="display:none">Shill</span>
-      </a>
-      <div class="side-tagline">shill.site</div>
+    <div class="side-top" style="padding:14px 10px 10px;">
     </div>
     <nav class="side-nav">
       <div class="side-label">Menu</div>
