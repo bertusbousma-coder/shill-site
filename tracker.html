@@ -1040,61 +1040,6 @@ function renderFeed(posts) {
 fetchFeed();
 setInterval(fetchFeed, 30000);
 
-// ── SUPABASE FEED ──
-const SUPA_URL = 'https://nkqjpcnslmadmvnuwvdh.supabase.co';
-const SUPA_KEY = 'sb_publishable_MsAMc4JdsxbCadOHZZQJYg_v6n8qoeX';
-
-function timeAgo(str) {
-  if (!str) return '';
-  const d = new Date(str);
-  if (isNaN(d)) return str;
-  const s = Math.floor((Date.now() - d) / 1000);
-  if (s < 60) return s + 's ago';
-  if (s < 3600) return Math.floor(s/60) + 'm ago';
-  if (s < 86400) return Math.floor(s/3600) + 'h ago';
-  return Math.floor(s/86400) + 'd ago';
-}
-
-async function fetchFeed() {
-  try {
-    const res = await fetch(`${SUPA_URL}/rest/v1/tweets?order=scraped_at.desc&limit=100`, {
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-      }
-    });
-    const data = await res.json();
-    if (data && data.length > 0) renderFeed(data);
-  } catch(e) { console.error('Feed error:', e); }
-}
-
-function renderFeed(posts) {
-  const scroll = document.getElementById('feedScroll');
-  const inner  = document.getElementById('feedInner');
-  const empty  = document.getElementById('emptyState');
-  if (!posts || posts.length === 0) return;
-  if (empty)  empty.style.display  = 'none';
-  if (scroll) scroll.style.display = 'block';
-  document.getElementById('postCount').textContent = posts.length;
-  inner.innerHTML = posts.map(p => `
-    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(42,143,196,0.2);border:1px solid rgba(42,143,196,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#4db8e0;flex-shrink:0;overflow:hidden;">
-          ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.textContent='${(p.display_name||p.handle||'?')[0].toUpperCase()}'">` : (p.display_name||p.handle||'?')[0].toUpperCase()}
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.88);letter-spacing:-.01em;">@${p.handle}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.28);">${timeAgo(p.tweet_time||p.scraped_at)}</div>
-        </div>
-      </div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.72);line-height:1.65;letter-spacing:-.01em;word-break:break-word;">${(p.content||'').replace(/\n/g,'<br>')}</div>
-    </div>
-  `).join('');
-}
-
-fetchFeed();
-setInterval(fetchFeed, 30000);
-
 // ── CLOCK ──
 function tick(){ document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
 tick(); setInterval(tick,1000);
