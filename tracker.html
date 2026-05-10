@@ -136,15 +136,15 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .tc-body a{color:var(--ac3);text-decoration:none;}
 .tc-body a:hover{text-decoration:underline;}
 .tc-ticker{color:var(--ac3);font-weight:600;}
-.tc-preview{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.09);text-decoration:none;display:block;transition:border-color .15s;}
+.tc-preview{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.09);text-decoration:none;display:block;max-width:480px;transition:border-color .15s;}
 .tc-preview:hover{border-color:rgba(42,143,196,0.5);}
-.tc-preview-img{width:100%;height:auto;max-height:300px;object-fit:cover;display:block;border-bottom:1px solid rgba(255,255,255,0.07);}
+.tc-preview-img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block;border-bottom:1px solid rgba(255,255,255,0.07);}
 .tc-preview-info{padding:9px 12px;}
 .tc-preview-domain{font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;letter-spacing:-.01em;}
 .tc-preview-title{font-size:13px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;letter-spacing:-.01em;}
-.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);}
-.tc-media img{width:100%;height:auto;max-height:400px;object-fit:contain;display:block;background:#000;}
-.tc-media video{width:100%;height:auto;max-height:400px;display:block;}
+.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);max-width:480px;display:block;}
+.tc-media img{width:100%;height:auto;display:block;max-height:320px;object-fit:contain;background:rgba(0,0,0,0.3);}
+.tc-media video{width:100%;height:auto;display:block;max-height:320px;}
 .tc-footer{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid rgba(42,143,196,0.1);margin-top:8px;}
 .tc-footer-left{display:flex;align-items:center;gap:12px;}
 .tc-footer-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.28);cursor:pointer;background:none;border:none;transition:color .15s;letter-spacing:-.01em;font-family:'Inter',sans-serif;}
