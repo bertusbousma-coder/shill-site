@@ -25,8 +25,16 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 /* SHELL */
 .shell{position:relative;z-index:10;display:flex;height:100vh;width:100%;}
 
-/* SIDE */
-.side{width:var(--panel-w);flex-shrink:0;height:100vh;display:flex;flex-direction:column;background:rgba(0,0,0,0.52);border-right:1px solid rgba(255,255,255,0.055);backdrop-filter:blur(20px);}
+/* SIDEBAR COLLAPSE */
+.side{width:var(--panel-w);flex-shrink:0;height:100vh;display:flex;flex-direction:column;background:rgba(0,0,0,0.52);border-right:1px solid rgba(255,255,255,0.055);backdrop-filter:blur(20px);transition:width .22s cubic-bezier(.22,1,.36,1),opacity .22s;overflow:hidden;}
+.side.collapsed{width:0;opacity:0;pointer-events:none;}
+.side-toggle{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s;margin-left:auto;}
+.side-toggle:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.side-toggle svg{width:11px;height:11px;}
+.side-show-btn{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:100;width:18px;height:44px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.1);border-left:none;border-radius:0 8px 8px 0;color:rgba(255,255,255,0.4);cursor:pointer;display:none;align-items:center;justify-content:center;transition:background .15s,color .15s;}
+.side-show-btn:hover{background:rgba(42,143,196,0.2);color:var(--ac3);}
+.side-show-btn svg{width:10px;height:10px;}
+.side-show-btn.visible{display:flex;}
 .side-top{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.055);flex-shrink:0;}
 .side-logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:2px;}
 .side-logo img{height:24px;width:auto;filter:drop-shadow(0 0 8px rgba(42,143,196,0.45));}
@@ -134,9 +142,9 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 .tc-preview-info{padding:9px 12px;}
 .tc-preview-domain{font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;letter-spacing:-.01em;}
 .tc-preview-title{font-size:13px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;letter-spacing:-.01em;}
-.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);display:inline-block;width:calc(100% - 28px);}
-.tc-media img{width:100%;height:auto;display:block;}
-.tc-media video{width:100%;height:auto;display:block;}
+.tc-media{margin:10px 14px;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);}
+.tc-media img{width:100%;height:auto;max-height:400px;object-fit:contain;display:block;background:#000;}
+.tc-media video{width:100%;height:auto;max-height:400px;display:block;}
 .tc-footer{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid rgba(42,143,196,0.1);margin-top:8px;}
 .tc-footer-left{display:flex;align-items:center;gap:12px;}
 .tc-footer-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.28);cursor:pointer;background:none;border:none;transition:color .15s;letter-spacing:-.01em;font-family:'Inter',sans-serif;}
@@ -397,6 +405,11 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
   </div>
 </div>
 
+<!-- SIDEBAR SHOW BTN -->
+<button class="side-show-btn" id="sideShowBtn" onclick="toggleSide()" title="Show sidebar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+
 <!-- MAIN SHELL -->
 <div class="shell">
   <!-- SIDE -->
@@ -406,7 +419,12 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
         <img src="logo.png" alt="Shill" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <span class="side-logo-fb" style="display:none">Shill</span>
       </a>
-      <div class="side-tagline">shill.site</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+        <div class="side-tagline">shill.site</div>
+        <button class="side-toggle" onclick="toggleSide()" title="Hide sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+      </div>
     </div>
     <nav class="side-nav">
       <span class="side-lbl">Menu</span>
@@ -445,7 +463,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
       <div class="topbar-right">
         <div class="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" placeholder="Search posts..."/>
+          <input class="search-input" type="text" placeholder="Search handles..."/>
         </div>
         <button class="tb-btn hidden" id="viewHandlesBtn" onclick="openHandles()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -514,7 +532,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
           <div class="comm-empty" id="commEmpty">
             <div class="empty-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
             <div class="empty-title">No communities imported</div>
-            <p class="empty-sub">Add an X Community URL to start tracking posts from that community in real-time.</p>
+            <p class="empty-sub">Import an X Community URL to start tracking posts from that community in real-time.</p>
             <button class="e-btn e-btn-p" onclick="openCommImport()" style="margin-top:4px;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               Import Communities
@@ -567,6 +585,14 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:#000;color:#fff;
 </div><!-- /shell -->
 
 <script>
+// ── SIDEBAR TOGGLE ──
+function toggleSide() {
+  const side = document.querySelector('.side');
+  const showBtn = document.getElementById('sideShowBtn');
+  const collapsed = side.classList.toggle('collapsed');
+  showBtn.classList.toggle('visible', collapsed);
+}
+
 // ── TABS ──
 function setTab(el, tab) {
   document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
